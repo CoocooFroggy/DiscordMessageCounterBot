@@ -22,13 +22,18 @@ public class Commands {
                 ResultSet resultSet = Main.statement.executeQuery("SELECT * FROM counter " +
                         "WHERE guildid = '" + message.getGuild().getId() + "' " +
                         "AND userid = '" + mentionedUser.getId() + "'");
-                resultSet.next();
+                if (!resultSet.next()) {
+                    //No results
+                    messageToSend.append("No results for " + mentionedUser.getAsMention() + ". They probably haven't sent any messages.\n");
+                    continue;
+                }
+                //There are results
                 //Get user's count
                 int countIndex = resultSet.findColumn("count");
                 int count = resultSet.getInt(countIndex);
 
                 //Add user to message
-                messageToSend.append(mentionedUser.getAsMention() + ": " + count + " messages\n");
+                messageToSend.append(mentionedUser.getAsMention() + ": " + count + " messages.\n");
 
             } catch (SQLException throwables) {
                 System.out.println("Caught an exception: ");
