@@ -1,0 +1,36 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '6.1.0'
+}
+
+group 'com.coocoofroggy'
+version '1.0'
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'Main'
+        )
+    }
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    compile("net.dv8tion:JDA:4.2.0_168")
+    compile group: 'org.postgresql', name: 'postgresql', version: '42.2.18'
+    compile("ch.qos.logback:logback-classic:1.2.3")
+}
+
+test {
+    useJUnitPlatform()
+}
+
+//Heroku
+task stage(dependsOn: ['shadowJar', 'clean'])
+build.mustRunAfter clean
