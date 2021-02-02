@@ -10,3 +10,4 @@
 
 ### Bot Usage
 - `c!count [User mentions]`: Returns how many messages each user has sent. e.g. `c!count @CoocooFroggy @JohnnnnyKlayy`
+- `c!join [User mentions]`: Returns how many messages each user has sent. e.g. `c!count @CoocooFroggy @JohnnnnyKlayy`
