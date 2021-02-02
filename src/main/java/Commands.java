@@ -1,9 +1,12 @@
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Duration;
+import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class Commands {
     public static void countCommand(User user, Message message, TextChannel channel) {
@@ -42,5 +45,29 @@ public class Commands {
         }
         //Send the message
         messageToEdit.editMessage(messageToSend).queue();
+    }
+
+    public static void joinCommand(Guild guild, Message message, TextChannel channel) {
+        //Make sure a user is mentioned
+        if (message.getMentionedUsers().isEmpty()) {
+            channel.sendMessage("Please mention at least one user.").queue();
+            return;
+        }
+
+        //Vars
+        List<User> mentionedUsers = message.getMentionedUsers();
+        OffsetDateTime currentDate = OffsetDateTime.now();
+        StringBuilder messageToSend = new StringBuilder();
+
+        //Loop through all mentioned users
+        for (User mentionedUser : mentionedUsers) {
+            Member member = guild.retrieveMember(mentionedUser).complete();
+            OffsetDateTime joinedDate = member.getTimeJoined();
+
+            Duration difference = Duration.between(joinedDate, currentDate);
+            messageToSend.append(mentionedUser.getName() + " has been in the server for **" + difference.toDays() + "** days.\n");
+        }
+
+        channel.sendMessage(messageToSend).queue();
     }
 }

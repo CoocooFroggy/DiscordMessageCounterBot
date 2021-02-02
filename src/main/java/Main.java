@@ -23,7 +23,7 @@ public class Main extends ListenerAdapter {
 
     public static boolean startBot() throws InterruptedException {
         JDABuilder preBuild = JDABuilder.createDefault(token);
-        preBuild.setActivity(Activity.listening("c!count"));
+        preBuild.setActivity(Activity.listening("c!count and c!join"));
         try {
             jda = preBuild.build();
         } catch (Exception e) {
@@ -67,8 +67,14 @@ public class Main extends ListenerAdapter {
         if (!messageRaw.startsWith(prefix))
             return;
 
+        //c!count [User mentions]
         if (messageNoPrefix.startsWith("count")) {
             Commands.countCommand(user, event.getMessage(), event.getChannel());
+        }
+
+        //c!join [User mentions]
+        else if (messageNoPrefix.startsWith("join")) {
+            Commands.joinCommand(event.getGuild(), event.getMessage(), event.getChannel());
         }
 
     }
