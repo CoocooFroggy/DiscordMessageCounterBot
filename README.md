@@ -7,3 +7,6 @@
 
 #### Database
 - Database is Postgresql. Table is called "counter" and has 3 columns. Text `guildid`, text `userid`, int `count`.
+
+### Bot Usage
+- `c!count [User mentions]`: Returns how many messages each user has sent. e.g. `c!count @CoocooFroggy @JohnnnnyKlayy`
